@@ -1,0 +1,13 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+}
+
+#currentPokemonCard{
+    background-color: #EE8130;
+    min-height: 50vh;
+    color: white;
+}
