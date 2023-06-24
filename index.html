@@ -5,15 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fonts.css">
     <script src="script.js"></script>
     <script src="const.js"></script>
-    <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body onload="loadPokemon()">
-    <div id="currentPokemonCard">
-        <h1 id="pokemonName"></h1>
-        <img id="pokemonImg" src="" alt="">
+    <div class="pokemonCard">
+        <div id="PokemonCardHeader">
+            <div class="flex-between">
+                <img src="img/arrow-left.png">
+                <div>
+                    <img src="img/heart.png">
+                    <img src="img/filled_heart.png" class="d-none">
+                </div>
+            </div>
+            <div class="flex-between">
+                <div id="pokemonNameCtn">
+                    <h1 id="pokemonName"></h1>
+                    <span id="pokemonType">Fire</span>
+                </div>
+                <span id="pokemonID">#004</span>
+            </div>
+            <div class="flex-center">
+                <img id="pokemonImg" src="" alt="">
+            </div>
+
+        </div>
+
+
+        <div class="info-container"></div>
     </div>
 </body>
 
