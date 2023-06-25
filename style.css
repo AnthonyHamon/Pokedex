@@ -1,63 +1,124 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-body{
+body {
     margin: 0;
-    font-family:'Open Sans';
+    font-family: 'Open Sans';
 }
 
-#PokemonCardHeader{
+.pokemonCard {
+    height: 100vh;
+}
+
+#PokemonCardHeader {
     background-color: #EE8130;
-    min-height: 50vh;
     color: white;
     display: flex;
     flex-direction: column;
     padding: 24px;
 }
 
-.info-container{
+.info-container {
+    display: flex;
+    flex-direction: column;
     background-color: white;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    margin-top: -100px;
-    min-height: 100px;
+    border-top-left-radius: 48px;
+    border-top-right-radius: 48px;
+    margin-top: -90px;
+    height: 50vh;
 }
 
-.d-none{
+.d-none {
     display: none;
 }
 
-.flex-center{
+.flex-around {
+    display: flex;
+    justify-content: space-around;
+}
+
+.flex-center {
     display: flex;
     justify-content: center;
 }
 
-.flex-between{
+.flex-between {
     display: flex;
     justify-content: space-between;
 }
 
-.flex-between img{
+.flex-between img {
     width: 36px;
     filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(257deg) brightness(105%) contrast(101%);
 }
-
-#pokemonNameCtn span{
-    margin-left: 12px;
+.pokemonDimension{
+    display: flex;
+    gap: 12px;
     padding: 4px 36px;
     border: solid;
     border-color: #EE8130;
     border-radius: 20px;
-    background-color: rgba(255,255,255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
-#pokemonImg{
-    width: 350px;
+#pokemonType {
+    padding: 4px 36px;
+    border: solid;
+    border-color: #EE8130;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    max-width: 120px;
 }
 
-#pokemonID{
+#pokemonImg {
+    width: 320px;
+}
+
+#pokemonID {
     align-self: center;
     margin-right: 24px;
     margin-top: 24px;
+}
+
+.nav a {
+    margin-top: 75px;
+    text-decoration: none;
+    color: black;
+}
+
+.nav a:hover {
+    color: black;
+}
+
+table {
+    padding: 24px 48px;
+    border-collapse: inherit;
+    width: 100%;
+}
+
+table th {
+    text-align: left;
+    padding: 24px 0 0 8px;
+}
+
+table td {
+    padding-top: 18px;
+}
+
+table td:nth-child(1n +2){
+    padding-left: 24px;
+}
+
+table td:nth-child(3){
+    width: 75%;
+}
+
+.padding_8_110 {
+    padding: 8px 110px;
+    font-size: 20px;
+}
+
+.font_20 {
+    font-size: 20px;
 }

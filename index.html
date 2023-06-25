@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="fonts.css">
     <script src="script.js"></script>
@@ -22,12 +23,23 @@
                     <img src="img/filled_heart.png" class="d-none">
                 </div>
             </div>
-            <div class="flex-between">
+            <div class="flex-between pt-4">
                 <div id="pokemonNameCtn">
                     <h1 id="pokemonName"></h1>
-                    <span id="pokemonType">Fire</span>
+                    <div>
+                        <div>
+                            <span id="pokemonType"></span>
+                        </div>
+                        <div class="pokemonDimension mt-1">
+                            <div>Height: <b id="pokemonHeight"></b></div>
+                            <span>|</span>
+                            <div>Weight: <b id="pokemonWeight"></b></div>
+                        </div>
+
+
+                    </div>
                 </div>
-                <span id="pokemonID">#004</span>
+                <span id="pokemonID">#</span>
             </div>
             <div class="flex-center">
                 <img id="pokemonImg" src="" alt="">
@@ -36,7 +48,94 @@
         </div>
 
 
-        <div class="info-container"></div>
+        <div class="info-container">
+
+            <div>
+                <nav class="nav flex-around">
+                    <a href="#">Base Stats</a>
+                    <a href="#">Evolution</a>
+                    <a href="#">Moves</a>
+                </nav>
+
+                <hr class="solid">
+                <div>
+                    <table>
+                        <tr id="HP">
+                            <td>HP</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="atk">
+                            <td>Attack</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="def">
+                            <td>Defense</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="sp-atk">
+                            <td>Sp.Atk</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="sp-def">
+                            <td>Sp.Def</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="speed">
+                            <td>Speed</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="total">
+                            <td>Total</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                                        aria-valuemin="0" aria-valuemax="100">25%</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
