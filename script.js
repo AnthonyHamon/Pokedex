@@ -62,3 +62,45 @@ function renderStatsProgressBar(){
     progressBar[i].style.backgroundColor =  `${colours['fire']}`;
     }
 }
+
+function renderPokemonEvolution(){
+    let pokemonInformations = document.getElementById('pokemonInformations');
+    pokemonInformations.innerHTML = returnHTMLPokemonEvolution();
+    pokemonInformations.classList.remove('pokemonMovesList');
+}
+
+function returnHTMLPokemonEvolution(){
+    return `
+        <div class="flex-around pokemonEvoImg">
+            <div>
+                <img src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}">
+            </div>
+            <div class="flex-center">
+                <img id="evolutionArrow" src="img/arrow_right.png">
+            </div>
+            <div>
+                <img src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}">
+            </div>
+        </div>
+    `
+}
+
+function renderPokemonMoves(){
+    let pokemonInformations = document.getElementById('pokemonInformations');
+    pokemonInformations.innerHTML = '';
+    let pokemonMoves = currentPokemon['moves'];
+    for (let i = 0; i < pokemonMoves.length; i++) {
+        const pokemonMove = pokemonMoves[i];
+        pokemonInformations.innerHTML += returnHTMLPokemonMoves(pokemonMove);
+    }
+    pokemonInformations.classList.add('pokemonMovesList')
+    
+}
+
+function returnHTMLPokemonMoves(pokemonMove){
+    return `
+        <li>
+            ${pokemonMove['move']['name']}
+        </li>
+    `
+}

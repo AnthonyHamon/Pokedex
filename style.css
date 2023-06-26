@@ -41,6 +41,7 @@ body {
 .flex-center {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .flex-between {
@@ -51,6 +52,10 @@ body {
 .flex-between img {
     width: 36px;
     filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(257deg) brightness(105%) contrast(101%);
+}
+
+.align-item-center{
+    display: flex;
 }
 .pokemonDimension{
     display: flex;
@@ -121,4 +126,24 @@ table td:nth-child(3){
 
 .font_20 {
     font-size: 20px;
+}
+
+.pokemonEvoImg img{
+    width: 320px;
+}
+
+#evolutionArrow{
+    width: 230px;
+    height: 230px;
+    filter: invert(59%) sepia(97%) saturate(1633%) hue-rotate(340deg) brightness(97%) contrast(91%);
+}
+
+.pokemonMovesList{
+    overflow-y: scroll;
+    display: flex;
+    max-height: 36vh;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 0 12px;
 }
