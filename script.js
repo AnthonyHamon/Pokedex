@@ -8,6 +8,7 @@ async function loadPokemon(){
 
     renderPokemonInfo();
     renderPokemonStats();
+    renderStatsProgressBar();
 }
 
 function renderPokemonInfo(){
@@ -43,8 +44,21 @@ function calcStatsTotal(){
     let pokemonSpeed= currentPokemon['stats'][5]['base_stat'];
     let pokemonTotal = pokemonHP + pokemonAtk + pokemonDef + pokemonSpAtk + pokemonSpDef + pokemonSpeed; 
     document.getElementById('total').children[1].innerHTML = pokemonTotal;
+    return pokemonTotal;
 }
 
 function renderStatsProgressBar(){
-    
+    let hightestPossibleStat = 150;
+    let hightestPossibleTotalStat = 900;
+    let progressBar = document.querySelectorAll('.progress-bar');
+    document.getElementById('HP').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][0]['base_stat']/hightestPossibleStat)*100}%`;
+    document.getElementById('atk').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][1]['base_stat']/hightestPossibleStat)*100}%`;
+    document.getElementById('def').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][2]['base_stat']/hightestPossibleStat)*100}%`;
+    document.getElementById('sp-atk').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][3]['base_stat']/hightestPossibleStat)*100}%`;
+    document.getElementById('sp-def').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][4]['base_stat']/hightestPossibleStat)*100}%`;
+    document.getElementById('speed').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][5]['base_stat']/hightestPossibleStat)*100}%`;
+    document.getElementById('total').querySelector('.progress-bar').style = `width: ${(calcStatsTotal()/hightestPossibleTotalStat)*100}%`;
+    for (let i = 0; i < progressBar.length; i++) {
+    progressBar[i].style.backgroundColor =  `${colours['fire']}`;
+    }
 }
