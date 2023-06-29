@@ -7,8 +7,7 @@ async function loadPokemon(){
     console.log('Abgerufene Pokemon ist:', currentPokemon);
 
     renderPokemonInfo();
-    renderPokemonStats();
-    renderStatsProgressBar();
+    renderPokemonBaseStats();
 }
 
 function renderPokemonInfo(){
@@ -47,7 +46,7 @@ function calcStatsTotal(){
     return pokemonTotal;
 }
 
-function renderStatsProgressBar(){
+function updateStatsProgressBar(){
     let hightestPossibleStat = 150;
     let hightestPossibleTotalStat = 900;
     let progressBar = document.querySelectorAll('.progress-bar');
@@ -93,8 +92,7 @@ function renderPokemonMoves(){
         const pokemonMove = pokemonMoves[i];
         pokemonInformations.innerHTML += returnHTMLPokemonMoves(pokemonMove);
     }
-    pokemonInformations.classList.add('pokemonMovesList')
-    
+    pokemonInformations.classList.add('pokemonMovesList');
 }
 
 function returnHTMLPokemonMoves(pokemonMove){
@@ -102,5 +100,96 @@ function returnHTMLPokemonMoves(pokemonMove){
         <li>
             ${pokemonMove['move']['name']}
         </li>
+    `;
+}
+
+function renderPokemonBaseStats(){
+    let pokemonInformations = document.getElementById('pokemonInformations');
+    pokemonInformations.innerHTML = returnPokemonBaseStats();
+    pokemonInformations.classList.remove('pokemonMovesList');
+    renderPokemonStats();
+    updateStatsProgressBar();
+}
+
+function returnPokemonBaseStats(){
+    return `
+    <div>
+                <div id="pokemonInformations">
+                    <table>
+                        <tr id="HP">
+                            <td>HP</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="atk">
+                            <td>Attack</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="def">
+                            <td>Defense</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="sp-atk">
+                            <td>Sp.Atk</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="sp-def">
+                            <td>Sp.Def</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="speed">
+                            <td>Speed</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr id="total">
+                            <td>Total</td>
+                            <td></td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
+                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                </div>
+            </div>
     `
 }

@@ -14,129 +14,82 @@
 </head>
 
 <body onload="loadPokemon()">
-    <div class="pokemonCard">
-        <div id="PokemonCardHeader">
-            <div class="flex-between">
-                <img src="img/arrow-left.png">
-                <div>
-                    <img src="img/heart.png">
-                    <img src="img/filled_heart.png" class="d-none">
-                </div>
-            </div>
-            <div class="flex-between pt-4">
-                <div id="pokemonNameCtn">
-                    <h1 id="pokemonName"></h1>
+    <div class="pokemonCardCtn d-none">
+        <div class="pokemonCard">
+            <div id="PokemonCardHeader">
+                <div class="flex-between filter-white">
+                    <img src="img/arrow-left.png">
                     <div>
-                        <div>
-                            <span id="pokemonType"></span>
-                        </div>
-                        <div class="pokemonDimension mt-1">
-                            <div>Height: <b id="pokemonHeight"></b></div>
-                            <span>|</span>
-                            <div>Weight: <b id="pokemonWeight"></b></div>
-                        </div>
-
-
+                        <img src="img/heart.png">
+                        <img src="img/filled_heart.png" class="d-none">
                     </div>
                 </div>
-                <span id="pokemonID">#</span>
-            </div>
-            <div class="flex-center">
-                <img id="pokemonImg" src="" alt="">
-            </div>
-
-        </div>
-
-
-        <div class="info-container">
-
-            <div>
-                <nav class="nav flex-around">
-                    <a href="#">Base Stats</a>
-                    <a onclick="renderPokemonEvolution()" href="#">Evolution</a>
-                    <a onclick="renderPokemonMoves()" href="#">Moves</a>
-                </nav>
-
-                <hr class="solid">
-                <div id="pokemonInformations">
-                    <table>
-                        <tr id="HP">
-                            <td>HP</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="atk">
-                            <td>Attack</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="def">
-                            <td>Defense</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="sp-atk">
-                            <td>Sp.Atk</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="sp-def">
-                            <td>Sp.Def</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="speed">
-                            <td>Speed</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="total">
-                            <td>Total</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                <div class="flex-between pt-2">
+                    <div id="pokemonNameCtn">
+                        <h2 id="pokemonName"></h2>
+                        <div>
+                            <div>
+                                <span id="pokemonType"></span>
+                            </div>
+                            <div class="pokemonDimension mt-1">
+                                <div>Height: <b id="pokemonHeight"></b></div>
+                                <span>|</span>
+                                <div>Weight: <b id="pokemonWeight"></b></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span id="pokemonID">#</span>
                 </div>
+                <div class="flex-center">
+                    <img id="pokemonArrowLeft" src="img/arrow-left-white.png" alt="">
+                    <img id="pokemonImg" src="" alt="">
+                    <img id="pokemonArrowRight" src="img/arrow-right-white.png" alt="">
+                </div>
+            </div>
+
+
+            <div class="info-container">
+
                 <div>
+                    <nav class="nav flex-around">
+                        <a onclick="renderPokemonBaseStats()" href="#">Base Stats</a>
+                        <a onclick="renderPokemonEvolution()" href="#">Evolution</a>
+                        <a onclick="renderPokemonMoves()" href="#">Moves</a>
+                    </nav>
+
+                    <hr class="solid">
+                    <div id="pokemonInformations"></div>
                 </div>
             </div>
         </div>
     </div>
+
+    <header>
+        <div class="flex-between p-4">
+            <img id="logo" src="img/pokedex-logo.png" alt="">
+            <div class="search-input">
+                <img src="img/pokemon-search.png" alt="">
+                <input id="searchInput" type="text" placeholder="Search">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="pokemonSingleCard">
+            <div class="p-24px">
+                <h4>Charmander</h4>
+                <div class="d-flex single-card-content">
+                    <div class="d-flex flex-column">
+                        <span>Fire</span>
+                        <span>Flying</span>
+                    </div>
+                    <div>
+                        <img src="img/charmander-test.png" alt="pokemonPicture">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>
