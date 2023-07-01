@@ -1,195 +1,64 @@
-let currentPokemon;
+let loadedPokemons;
+let pokemonInformations;
 
-async function loadPokemon(){
-    let url = 'https://pokeapi.co/api/v2/pokemon/charmander';
+async function loadAllPokemons() {
+    let url = 'https://pokeapi.co/api/v2/pokemon/';
     let response = await fetch(url);
-    currentPokemon = await response.json();
-    console.log('Abgerufene Pokemon ist:', currentPokemon);
-
-    renderPokemonInfo();
-    renderPokemonBaseStats();
+    loadedPokemons = await response.json();
+    console.log(loadedPokemons);
+    renderPokemonThumbnails();
 }
 
-function renderPokemonInfo(){
-    let pokemonName = currentPokemon['name'];
-    let pokemonType = currentPokemon['types'][0]['type']['name'];
-    let pokemonHeight = currentPokemon['height'];
-    let pokemonWeight = currentPokemon['weight'];
-    let pokemonID = document.getElementById('pokemonID');
-    document.getElementById('pokemonName').innerHTML = pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1);
-    document.getElementById('pokemonImg').src = currentPokemon['sprites']['other']['official-artwork']['front_default'];
-    document.getElementById('pokemonType').innerHTML = pokemonType.charAt(0).toUpperCase() + pokemonType.slice(1);
-    document.getElementById('pokemonHeight').innerHTML += (pokemonHeight/10) + " m";
-    document.getElementById('pokemonWeight').innerHTML += (pokemonWeight/10) + " KG";
-    pokemonID.innerHTML += currentPokemon['id'].toString().padStart(3, '0');
+async function loadPokemonThumbnailsInformations(i) {
+    let pokemonInfoURL = loadedPokemons['results'][i]['url'];
+    let url = pokemonInfoURL;
+    let response = await fetch(url);
+    pokemonInformations = await response.json();
 }
 
-function renderPokemonStats(){
-    document.getElementById('HP').children[1].innerHTML = currentPokemon['stats'][0]['base_stat'];
-    document.getElementById('atk').children[1].innerHTML = currentPokemon['stats'][1]['base_stat'];
-    document.getElementById('def').children[1].innerHTML = currentPokemon['stats'][2]['base_stat'];
-    document.getElementById('sp-atk').children[1].innerHTML = currentPokemon['stats'][3]['base_stat'];
-    document.getElementById('sp-def').children[1].innerHTML = currentPokemon['stats'][4]['base_stat'];
-    document.getElementById('speed').children[1].innerHTML = currentPokemon['stats'][5]['base_stat'];
-    calcStatsTotal();
-}
-
-function calcStatsTotal(){
-    let pokemonHP = currentPokemon['stats'][0]['base_stat'];
-    let pokemonAtk = currentPokemon['stats'][1]['base_stat'];
-    let pokemonDef = currentPokemon['stats'][2]['base_stat'];
-    let pokemonSpAtk = currentPokemon['stats'][3]['base_stat'];
-    let pokemonSpDef = currentPokemon['stats'][4]['base_stat'];
-    let pokemonSpeed= currentPokemon['stats'][5]['base_stat'];
-    let pokemonTotal = pokemonHP + pokemonAtk + pokemonDef + pokemonSpAtk + pokemonSpDef + pokemonSpeed; 
-    document.getElementById('total').children[1].innerHTML = pokemonTotal;
-    return pokemonTotal;
-}
-
-function updateStatsProgressBar(){
-    let hightestPossibleStat = 150;
-    let hightestPossibleTotalStat = 900;
-    let progressBar = document.querySelectorAll('.progress-bar');
-    document.getElementById('HP').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][0]['base_stat']/hightestPossibleStat)*100}%`;
-    document.getElementById('atk').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][1]['base_stat']/hightestPossibleStat)*100}%`;
-    document.getElementById('def').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][2]['base_stat']/hightestPossibleStat)*100}%`;
-    document.getElementById('sp-atk').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][3]['base_stat']/hightestPossibleStat)*100}%`;
-    document.getElementById('sp-def').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][4]['base_stat']/hightestPossibleStat)*100}%`;
-    document.getElementById('speed').querySelector('.progress-bar').style = `width: ${(currentPokemon['stats'][5]['base_stat']/hightestPossibleStat)*100}%`;
-    document.getElementById('total').querySelector('.progress-bar').style = `width: ${(calcStatsTotal()/hightestPossibleTotalStat)*100}%`;
-    for (let i = 0; i < progressBar.length; i++) {
-    progressBar[i].style.backgroundColor =  `${colours['fire']}`;
+async function renderPokemonThumbnails() {
+    let pokemonThumbnailsContainer = document.getElementById('pokemonThumbnailsContainer');
+    let loadedPokemonsArray = loadedPokemons['results'];
+    for (let i = 0; i < loadedPokemonsArray.length; i++) {
+        await loadPokemonThumbnailsInformations(i);
+        const pokemon = loadedPokemonsArray[i];
+        pokemonThumbnailsContainer.innerHTML += returnPokemonThumbnails(pokemon, i);
+        renderPokemonThumbnailsInformations(i);
     }
 }
 
-function renderPokemonEvolution(){
-    let pokemonInformations = document.getElementById('pokemonInformations');
-    pokemonInformations.innerHTML = returnHTMLPokemonEvolution();
-    pokemonInformations.classList.remove('pokemonMovesList');
-}
-
-function returnHTMLPokemonEvolution(){
+function returnPokemonThumbnails(pokemon, i) {
+    let pokemonName = pokemon['name'];
     return `
-        <div class="flex-around pokemonEvoImg">
-            <div>
-                <img src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}">
-            </div>
-            <div class="flex-center">
-                <img id="evolutionArrow" src="img/arrow_right.png">
-            </div>
-            <div>
-                <img src="${currentPokemon['sprites']['other']['official-artwork']['front_default']}">
-            </div>
+    <div id="pokemonSingleCard${i}" class="pokemonSingleCard">
+        <div class="p-24px">
+            <h4>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h4>
+            <div id="singleCardContent${i}" class="d-flex single-card-content"></div>
         </div>
+    </div>
     `
 }
 
-function renderPokemonMoves(){
-    let pokemonInformations = document.getElementById('pokemonInformations');
-    pokemonInformations.innerHTML = '';
-    let pokemonMoves = currentPokemon['moves'];
-    for (let i = 0; i < pokemonMoves.length; i++) {
-        const pokemonMove = pokemonMoves[i];
-        pokemonInformations.innerHTML += returnHTMLPokemonMoves(pokemonMove);
+function renderPokemonThumbnailsInformations(i) {
+    let pokemonTypesArray = pokemonInformations['types'];
+    for (let j = 0; j < pokemonTypesArray.length; j++) {
+        const pokemonType = pokemonTypesArray[j];
     }
-    pokemonInformations.classList.add('pokemonMovesList');
+    let type1 = pokemonInformations['types'][0]['type']['name'];
+    // let type2 = pokemonInformations['types'][1]['type']['name'];
+    let img = pokemonInformations['sprites']['other']['official-artwork']['front_default'];
+    let singleCardContent = document.getElementById(`singleCardContent${i}`);
+    document.getElementById(`pokemonSingleCard${i}`).classList.add(`${type1}`);
+    singleCardContent.innerHTML = returnPokemonThumbnailsInformations(type1, img);
 }
 
-function returnHTMLPokemonMoves(pokemonMove){
+function returnPokemonThumbnailsInformations(type1, img) {
     return `
-        <li>
-            ${pokemonMove['move']['name']}
-        </li>
-    `;
-}
-
-function renderPokemonBaseStats(){
-    let pokemonInformations = document.getElementById('pokemonInformations');
-    pokemonInformations.innerHTML = returnPokemonBaseStats();
-    pokemonInformations.classList.remove('pokemonMovesList');
-    renderPokemonStats();
-    updateStatsProgressBar();
-}
-
-function returnPokemonBaseStats(){
-    return `
+    <div class="d-flex flex-column">
+        <span>${type1}</span>
+    </div>
     <div>
-                <div id="pokemonInformations">
-                    <table>
-                        <tr id="HP">
-                            <td>HP</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="atk">
-                            <td>Attack</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="def">
-                            <td>Defense</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="sp-atk">
-                            <td>Sp.Atk</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="sp-def">
-                            <td>Sp.Def</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="speed">
-                            <td>Speed</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="total">
-                            <td>Total</td>
-                            <td></td>
-                            <td>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 25%;"
-                                        aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div>
-                </div>
-            </div>
+        <img src="${img}">
+    </div>
     `
 }

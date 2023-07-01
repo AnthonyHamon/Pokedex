@@ -9,11 +9,12 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="fonts.css">
     <script src="script.js"></script>
+    <script src="script-2.js"></script>
     <script src="const.js"></script>
 
 </head>
 
-<body onload="loadPokemon()">
+<body onload="loadAllPokemons()">
     <div class="pokemonCardCtn d-none">
         <div class="pokemonCard">
             <div id="PokemonCardHeader">
@@ -74,22 +75,7 @@
         </div>
     </header>
 
-    <main>
-        <div class="pokemonSingleCard">
-            <div class="p-24px">
-                <h4>Charmander</h4>
-                <div class="d-flex single-card-content">
-                    <div class="d-flex flex-column">
-                        <span>Fire</span>
-                        <span>Flying</span>
-                    </div>
-                    <div>
-                        <img src="img/charmander-test.png" alt="pokemonPicture">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <main id="pokemonThumbnailsContainer"></main>
 </body>
 
 </html>
