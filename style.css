@@ -6,6 +6,10 @@ body {
     margin: 0;
     font-family: 'Open Sans';
     background-color: #F1F0EF;
+    background-image: url('img/pokemon-bg10.jpg');
+    background-position: top;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 .pokemonCardCtn{
@@ -22,6 +26,7 @@ body {
 .pokemonCard {
     width: 550px;
     border-radius: 20px;
+    box-shadow: 2px 2px 10px 5px rgba(55,55,55,0.8);
 }
 
 #PokemonCardHeader {
@@ -204,45 +209,50 @@ main{
 }
 
 #searchInput{
-    border-top: none;
-    border-right: none;
-    border-left: none;
+    border: none;
+    border-radius: 10px;
     background-color: #F1F0EF;
-    border-bottom: 1px solid;
+    padding: 4px;
     outline: none;
 }
 
 .pokemonSingleCard{
     height: 250px;
     width: 350px;
-    background-color: #EE8130;
     color: white;
     border-radius: 20px;
     box-shadow: 2px 2px 10px 5px rgba(55,55,55,0.8);
     cursor: pointer;
 }
 
-.p-24px{
-    padding: 24px;
+.p-12px{
+    padding: 12px;
 }
 
 .single-card-content{
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
 }
 
 .single-card-content img{
-    width: 170px;
+    width: 200px;
 }
 
-/* .single-card-content img:hover{
-    width: 140px;
-} */
+.single-card-content-img{
+    width: 210px;
+    height: 210px;
+}
+
+.single-card-content-img img:hover{
+    width: 210px;
+    transition: all 225ms ease-in-out;
+}
 
 .single-card-content span{
     border: solid;
     padding: 4px 36px;
+    margin-bottom: 8px;
     border-color: transparent;
     border-radius: 20px;
     max-width: 120px;

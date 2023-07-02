@@ -14,12 +14,12 @@
 
 </head>
 
-<body onload="loadAllPokemons()">
-    <div class="pokemonCardCtn d-none">
+<body onload="loadPokedex()">
+    <div id="pokemonCardCtn" class="pokemonCardCtn d-none">
         <div class="pokemonCard">
             <div id="PokemonCardHeader">
                 <div class="flex-between filter-white">
-                    <img src="img/arrow-left.png">
+                    <img onclick="closeSelectedCard()" src="img/arrow-left.png">
                     <div>
                         <img src="img/heart.png">
                         <img src="img/filled_heart.png" class="d-none">

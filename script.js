@@ -1,12 +1,30 @@
 let loadedPokemons;
 let pokemonInformations;
+let query = 0;
+let isLoading = false;
 
-async function loadAllPokemons() {
-    let url = 'https://pokeapi.co/api/v2/pokemon/';
+async function loadPokedex() {
+    let url = `https://pokeapi.co/api/v2/pokemon/?offset=${query}&limit=50`;
     let response = await fetch(url);
     loadedPokemons = await response.json();
     console.log(loadedPokemons);
     renderPokemonThumbnails();
+    
+}
+
+ window.onscroll = async function() {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !isLoading) {
+        isLoading = true;
+        await loadMorePokemons();
+        setTimeout (()=>{
+            isLoading = false;
+        },3000)
+    }
+};
+
+ async function loadMorePokemons() {
+    query = query + 50;
+    await loadPokedex();
 }
 
 async function loadPokemonThumbnailsInformations(i) {
@@ -22,43 +40,56 @@ async function renderPokemonThumbnails() {
     for (let i = 0; i < loadedPokemonsArray.length; i++) {
         await loadPokemonThumbnailsInformations(i);
         const pokemon = loadedPokemonsArray[i];
-        pokemonThumbnailsContainer.innerHTML += returnPokemonThumbnails(pokemon, i);
-        renderPokemonThumbnailsInformations(i);
+        pokemonThumbnailsContainer.innerHTML += returnPokemonThumbnails(pokemon);
     }
 }
 
-function returnPokemonThumbnails(pokemon, i) {
+function returnPokemonThumbnails(pokemon) {
     let pokemonName = pokemon['name'];
+    let type1 = pokemonInformations['types'][0]['type']['name'];
+
     return `
-    <div id="pokemonSingleCard${i}" class="pokemonSingleCard">
-        <div class="p-24px">
-            <h4>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h4>
-            <div id="singleCardContent${i}" class="d-flex single-card-content"></div>
+    <div onclick="openSelectedCard(${pokemon})" id="pokemon-${pokemonName}" class="pokemonSingleCard ${type1}">
+        <div class="p-12px">
+            <div class="flex-between">
+                <h4>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h4>
+                <span>#${pokemonInformations['id'].toString().padStart(3, '0')}</span>
+            </div>
+                <div id="${pokemonName}CardContent" class="d-flex single-card-content">
+                ${returnPokemonThumbnailsInformations()}
+                </div>
         </div>
     </div>
     `
 }
 
-function renderPokemonThumbnailsInformations(i) {
-    let pokemonTypesArray = pokemonInformations['types'];
-    for (let j = 0; j < pokemonTypesArray.length; j++) {
-        const pokemonType = pokemonTypesArray[j];
-    }
-    let type1 = pokemonInformations['types'][0]['type']['name'];
-    // let type2 = pokemonInformations['types'][1]['type']['name'];
-    let img = pokemonInformations['sprites']['other']['official-artwork']['front_default'];
-    let singleCardContent = document.getElementById(`singleCardContent${i}`);
-    document.getElementById(`pokemonSingleCard${i}`).classList.add(`${type1}`);
-    singleCardContent.innerHTML = returnPokemonThumbnailsInformations(type1, img);
-}
-
-function returnPokemonThumbnailsInformations(type1, img) {
+function returnPokemonThumbnailsInformations() {
     return `
     <div class="d-flex flex-column">
-        <span>${type1}</span>
+        ${returnPokemonTypeInformation()}    
     </div>
-    <div>
-        <img src="${img}">
+    <div class="single-card-content-img">
+        <img src="${pokemonInformations['sprites']['other']['official-artwork']['front_default']}">
     </div>
     `
+}
+
+function returnPokemonTypeInformation() {
+    let pokemonTypesArray = pokemonInformations['types'];
+    let htmlText = "";
+    for (let j = 0; j < pokemonTypesArray.length; j++) {
+        const pokemonType = pokemonTypesArray[j];
+        htmlText += `<span>${pokemonType['type']['name']}</span>`
+    };
+
+    return htmlText;
+}
+
+function openSelectedCard(pokemon){
+    document.getElementById('pokemonCardCtn').classList.remove('d-none');
+    console.log('current Pokemon is', pokemon['name'])
+}
+
+function closeSelectedCard(){
+    document.getElementById('pokemonCardCtn').classList.add('d-none');
 }
