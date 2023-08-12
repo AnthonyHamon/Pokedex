@@ -1,12 +1,14 @@
 let loadedPokemons;
 let pokemonInformations;
-let allPokemonEvolutions;
+let nextPokemonInformations;
+let pokemonEvolutions;
 let query = 0;
 let isLoading = false;
 let index = 0;
+let pokemonEvolutionFound = false;
 
 async function loadPokedex() {
-    let url = `https://pokeapi.co/api/v2/pokemon/?offset=${query}&limit=50`;
+    let url = `https://pokeapi.co/api/v2/pokemon/?offset=${query}&limit=50`; // load pokedex from query value;
     let response = await fetch(url);
     loadedPokemons = await response.json();
     console.log(loadedPokemons);
@@ -30,14 +32,13 @@ async function loadPokemonInformations(index) {
     pokemonInformations = await response.json();
 }
 
-async function loadPokemonEvolution(k) {
-    let url = `https://pokeapi.co/api/v2/evolution-chain/${k}/`;
+async function loadNextPokemonInformations(index) {
+    let url = `https://pokeapi.co/api/v2/pokemon/${index + 1}/`;
     let response = await fetch(url);
-    allPokemonEvolutions = await response.json();
-    console.log(allPokemonEvolutions);
+    nextPokemonInformations = await response.json();
 }
 
-async function renderPokemonThumbnails(k) {
+async function renderPokemonThumbnails() {
     let pokemonThumbnailsContainer = document.getElementById('pokemonThumbnailsContainer');
     let loadedPokemonsArray = loadedPokemons['results'];
     for (let i = 0; i < loadedPokemonsArray.length; i++) {
@@ -92,10 +93,12 @@ function returnPokemonTypeInformation() {
 async function openSelectedPokemonInformationsCard(index) {
     let pokemonInformationsCard = document.getElementById('pokemonInformationsCardCtn');
     await loadPokemonInformations(index);
+    await loadNextPokemonInformations(index);
     document.getElementById('pokemonInformationsCardCtn').classList.remove('d-none');
-    console.log('current Pokemon is', index);
+    console.log('current Pokemon is', pokemonInformations['name']);
     pokemonInformationsCard.innerHTML = returnPokemonInformationsCard(index);
     console.log(pokemonInformations);
+
 }
 
 function returnPokemonInformationsCard(index) {
@@ -203,36 +206,67 @@ function returnHTMLPokemonMoves(pokemonMove) {
     `;
 }
 
-function renderPokemonEvolution() {
-    let pokemonInformationsCtn = document.getElementById('pokemonInformations');
-    pokemonInformationsCtn.classList.remove('pokemonMovesList');
-    let currentPokemonImg = pokemonInformations['sprites']['other']['official-artwork']['front_default'];
-    pokemonInformationsCtn.innerHTML = returnHTMLPokemonEvolution(currentPokemonImg);
-
-}
-
-async function findPokemonName() {
-    let pokemonEvolutionsArray = allPokemonEvolutions['results']; wrong
-    for (let k = 1; k < pokemonEvolutionsArray.length; k++) {
-        await loadPokemonEvolution(k);
-        const pokemonEvolutions = pokemonEvolutionsArray[k];
-        if (currentPokemonName === pokemonEvolutions['species']['name']
-            && currentPokemonName + 1 === pokemonEvolutions['evolves_to']['species']['name']) {
-              let pokemonEvolutionImg =   pokemonInformations +1['sprites']['other']['official-artwork']['front_default'];
+async function loadAllPokemonEvolution() {
+    let url = `https://pokeapi.co/api/v2/evolution-chain/?offset=0&limit=530`;
+    let response = await fetch(url);
+    let allPokemonEvolutions = await response.json();
+    let allPokemonEvolutionsArray = allPokemonEvolutions['results']
+    console.log(allPokemonEvolutions);
+    for (let k = 1; k < allPokemonEvolutionsArray.length; k++) {
+        try{
+            let evolutionChainURL = `https://pokeapi.co/api/v2/evolution-chain/${k}/`;
+        let evolutionChainResponse = await fetch(evolutionChainURL);
+        pokemonEvolutions = await evolutionChainResponse.json();
+            checkForPokemonEvolution();
+        // findPokemonEvolution();
+        console.log(pokemonEvolutions);
+        }catch(error){
+            console.log(error)
         }
-        console.log('this pokemon evlute in',  pokemonEvolutionImg);
+        
     }
 }
 
-function returnHTMLPokemonEvolution(currentPokemonImg) {
+function findPokemonEvolution() {
+    try {
+        checkForPokemonEvolution();
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function renderPokemonEvolution() {
+    await loadAllPokemonEvolution();
+    let pokemonInformationsCtn = document.getElementById('pokemonInformations');
+    pokemonInformationsCtn.classList.remove('pokemonMovesList');
+    let currentPokemonImg = pokemonInformations['sprites']['other']['official-artwork']['front_default'];
+    pokemonInformationsCtn.innerHTML = returnHTMLCurrentPokemonEvolution(currentPokemonImg);
+    let pokemonEvolutionCtn = document.getElementById('pokemonEvolutionCtn');
+    if (pokemonEvolutionFound === true) {
+        pokemonEvolutionCtn.innerHTML += returnHTMLPokemonEvolution();
+    }
+}
+
+function checkForPokemonEvolution() {
+    if (pokemonEvolutions['chain']['evolves_to'][0]) {
+        let pokemonFirstEvolution = pokemonEvolutions['chain']['evolves_to'][0]['species']['name'];
+        if (pokemonFirstEvolution === nextPokemonInformations['name']) {
+            pokemonEvolutionFound = true;
+        }
+    }
+    if (pokemonEvolutions['chain']['evolves_to'][0] && pokemonEvolutions['chain']['evolves_to'][0]['evolves_to'][0]) {
+        let pokemonSecondEvolution = pokemonEvolutions['chain']['evolves_to'][0]['evolves_to'][0]['species']['name'];
+
+        if (pokemonSecondEvolution === nextPokemonInformations['name']) {
+            pokemonEvolutionFound = true;
+        }
+    }
+}
+
+
+function returnHTMLCurrentPokemonEvolution(currentPokemonImg) {
     return `
-        <div class="flex-around pokemonEvoImg">
-            <div>
-                <img src="${currentPokemonImg}">
-            </div>
-            <div class="flex-center">
-                <img id="evolutionArrow" src="img/arrow_right.png">
-            </div>
+        <div id="pokemonEvolutionCtn" class="flex-around pokemonEvoImg">
             <div>
                 <img src="${currentPokemonImg}">
             </div>
@@ -240,8 +274,22 @@ function returnHTMLPokemonEvolution(currentPokemonImg) {
     `
 }
 
+function returnHTMLPokemonEvolution() {
+    let type1 = pokemonInformations['types'][0]['type']['name'];
+    let nextPokemonImg = nextPokemonInformations['sprites']['other']['official-artwork']['front_default'];
+    return `
+        <div class="flex-center">
+            <img id="${type1}" src="img/arrow_right.png">
+        </div>
+        <div>
+            <img src="${nextPokemonImg}" alt="pokemon Evolution">
+        </div>
+    `
+}
+
 
 function closeSelectedCard() {
+    pokemonEvolutionFound = false;
     document.getElementById('pokemonInformationsCardCtn').classList.add('d-none');
 }
 
@@ -251,13 +299,20 @@ function toggleLikePokemonHeart() {
 }
 
 function previousPokemon(index) {
-    index--
+    pokemonEvolutionFound = false;
+    index--;
     openSelectedPokemonInformationsCard(index);
 }
 
 function nextPokemon(index) {
-    index++
+    pokemonEvolutionFound = false;
+    index++;
     console.log('index is', index + 1)
     openSelectedPokemonInformationsCard(index);
+}
+
+function searchPokemon() {
+    let inputValue = document.getElementById('searchInput').value;
+    console.log('hello');
 }
 

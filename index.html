@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="fonts.css">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <script src="script.js"></script>
-    <script src="const.js"></script>
 
 </head>
 
@@ -21,7 +21,7 @@
             <img id="logo" src="img/pokedex-logo.png" alt="">
             <div class="search-input">
                 <img src="img/pokemon-search.png" alt="">
-                <input id="searchInput" type="text" placeholder="Search">
+                <input oninput="searchPokemon()" id="searchInput" type="text" placeholder="Search">
             </div>
         </div>
     </header>
