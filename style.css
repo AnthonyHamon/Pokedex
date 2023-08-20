@@ -165,7 +165,7 @@ table td:nth-child(3) {
 }
 
 .pokemonEvoImg img {
-    width: 220px;
+    width: 154px;
     height: 320px;
     object-fit: contain;
 }
@@ -321,73 +321,73 @@ main{
 
 #normal{
     filter: invert(75%) sepia(2%) saturate(4300%) hue-rotate(21deg) brightness(88%) contrast(88%);
-    width: 80px;
+    width: 54px;
 }
 #fire{
     filter: invert(59%) sepia(97%) saturate(1633%) hue-rotate(340deg) brightness(97%) contrast(91%);
-    width: 80px;
+    width: 54px;
 }
 #water{
     filter: invert(55%) sepia(46%) saturate(2726%) hue-rotate(199deg) brightness(99%) contrast(89%);
-    width: 80px;
+    width: 54px;
 }
 #electric{
     filter: invert(96%) sepia(99%) saturate(3838%) hue-rotate(329deg) brightness(98%) contrast(98%);
-    width: 80px;
+    width: 54px;
 }
 #grass{
     filter: invert(65%) sepia(92%) saturate(295%) hue-rotate(53deg) brightness(91%) contrast(89%);
-    width: 80px;
+    width: 54px;
 }
 #ice{
     filter: invert(91%) sepia(95%) saturate(240%) hue-rotate(96deg) brightness(91%) contrast(85%);
-    width: 80px;
+    width: 54px;
 }
 #fighting{
     filter: invert(23%) sepia(85%) saturate(1312%) hue-rotate(334deg) brightness(103%) contrast(106%);
-    width: 80px;
+    width: 54px;
 }
 #poison{
     filter: invert(34%) sepia(20%) saturate(3883%) hue-rotate(266deg) brightness(88%) contrast(89%);
-    width: 80px;
+    width: 54px;
 }
 #ground{
     filter: invert(88%) sepia(29%) saturate(867%) hue-rotate(337deg) brightness(93%) contrast(90%);
-    width: 80px;
+    width: 54px;
 }
 #flying{
     filter: invert(53%) sepia(100%) saturate(793%) hue-rotate(212deg) brightness(102%) contrast(91%);
-    width: 80px;
+    width: 54px;
 }
 #psychic{
     filter: invert(58%) sepia(35%) saturate(5846%) hue-rotate(310deg) brightness(97%) contrast(101%);
-    width: 80px;
+    width: 54px;
 }
 #bug{
     filter: invert(75%) sepia(56%) saturate(3280%) hue-rotate(25deg) brightness(102%) contrast(80%);
-    width: 80px;
+    width: 54px;
 }
 #rock{
     filter: invert(61%) sepia(73%) saturate(378%) hue-rotate(13deg) brightness(90%) contrast(89%);
-    width: 80px;
+    width: 54px;
 }
 #ghost{
     filter: invert(32%) sepia(4%) saturate(6214%) hue-rotate(224deg) brightness(107%) contrast(77%);
-    width: 80px;
+    width: 54px;
 }
 #dragon{
     filter: invert(26%) sepia(54%) saturate(7102%) hue-rotate(253deg) brightness(97%) contrast(103%);
-    width: 80px;
+    width: 54px;
 }
 #dark{
     filter: invert(35%) sepia(10%) saturate(1445%) hue-rotate(341deg) brightness(90%) contrast(82%);
-    width: 80px;
+    width: 54px;
 }
 #steel{
     filter: invert(88%) sepia(6%) saturate(851%) hue-rotate(201deg) brightness(86%) contrast(85%);
-    width: 80px;
+    width: 54px;
 }
 #fairy{
     filter: invert(73%) sepia(81%) saturate(459%) hue-rotate(286deg) brightness(88%) contrast(89%);
-    width: 80px;
+    width: 54px;
 }
