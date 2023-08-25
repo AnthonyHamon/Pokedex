@@ -212,23 +212,30 @@ async function loadPokemonEvolution() {
     console.log(pokemonEvolutionChain);
 }
 
-async function checkPokemonEvolutions() {
-    let basePokemon = pokemonEvolutionChain['chain']['species']['name'];
-    let pokemonFirstEvolution = pokemonEvolutionChain['chain']['evolves_to'];
-    let pokemonSecondEvolution = pokemonEvolutionChain['chain']['evolves_to'][0]['evolves_to'][0];
-    if (pokemonFirstEvolution &&!pokemonSecondEvolution) {
-        let pokemonFirstEvolutionName = pokemonFirstEvolution[0]['species']['name'];
-        await loadBasePokemonEvolutionInformations(basePokemon);
-        await loadPokemonFirstEvolutionInformation(pokemonFirstEvolutionName);
-    }
+async function renderBasePokemonEvolution(basePokemon) {
+    await loadBasePokemonEvolutionInformations(basePokemon);
+    let pokemonInformationsCtn = document.getElementById('pokemonInformations');
+    pokemonInformationsCtn.innerHTML = returnHTMLBasePokemonEvolutions();
+}
 
-    if (pokemonFirstEvolution && pokemonSecondEvolution) {
-        let pokemonFirstEvolution = pokemonEvolutionChain['chain']['evolves_to'][0]['species']['name'];
-        let pokemonSecondEvolutionName = pokemonSecondEvolution['species']['name'];
-        await loadBasePokemonEvolutionInformations(basePokemon);
-        await loadPokemonFirstEvolutionInformation(pokemonFirstEvolution);
-        await loadPokemonSecondEvolutionInformation(pokemonSecondEvolutionName);
-    }
+async function renderFirstPokemonEvolution(basePokemon, pokemonFirstEvolution) {
+    await loadBasePokemonEvolutionInformations(basePokemon);
+    await loadPokemonFirstEvolutionInformation(pokemonFirstEvolution);
+    let pokemonInformationsCtn = document.getElementById('pokemonInformations');
+    pokemonInformationsCtn.innerHTML = returnHTMLBasePokemonEvolutions();
+    let pokemonEvolutionCtn = document.getElementById('pokemonEvolutionCtn');
+    pokemonEvolutionCtn.innerHTML += returnHTMLPokemonFirstEvolution()
+}
+
+async function renderSecondPokemonEvolution(basePokemon, pokemonFirstEvolution, pokemonSecondEvolution) {
+    await loadBasePokemonEvolutionInformations(basePokemon);
+    await loadPokemonFirstEvolutionInformation(pokemonFirstEvolution);
+    await loadPokemonSecondEvolutionInformation(pokemonSecondEvolution);
+    let pokemonInformationsCtn = document.getElementById('pokemonInformations');
+    pokemonInformationsCtn.innerHTML = returnHTMLBasePokemonEvolutions();
+    let pokemonEvolutionCtn = document.getElementById('pokemonEvolutionCtn');
+    pokemonEvolutionCtn.innerHTML += returnHTMLPokemonFirstEvolution()
+    pokemonEvolutionCtn.innerHTML += returnHTMLPokemonSecondEvolution();
 }
 
 async function loadBasePokemonEvolutionInformations(basePokemon) {
@@ -237,29 +244,42 @@ async function loadBasePokemonEvolutionInformations(basePokemon) {
     basePokemonInformations = await response1.json();
 }
 
-async function loadPokemonFirstEvolutionInformation(pokemonFirstEvolution){
-    let url2 = `https://pokeapi.co/api/v2/pokemon/${pokemonFirstEvolution}/`;
+async function loadPokemonFirstEvolutionInformation(pokemonFirstEvolution) {
+    let pokemonFirstEvolutionName = pokemonFirstEvolution['species']['name'];
+    let url2 = `https://pokeapi.co/api/v2/pokemon/${pokemonFirstEvolutionName}/`;
     let response2 = await fetch(url2);
     pokemonFirstEvolutionInformations = await response2.json();
 }
 
- async function loadPokemonSecondEvolutionInformation(pokemonSecondEvolution){
-    let url3 = `https://pokeapi.co/api/v2/pokemon/${pokemonSecondEvolution}/`;
+async function loadPokemonSecondEvolutionInformation(pokemonSecondEvolution) {
+    let pokemonSecondEvolutionName = pokemonSecondEvolution['species']['name'];
+    let url3 = `https://pokeapi.co/api/v2/pokemon/${pokemonSecondEvolutionName}/`;
     let response3 = await fetch(url3);
     pokemonSecondEvolutionInformations = await response3.json();
     console.log(pokemonSecondEvolutionInformations);
 }
 
 async function renderPokemonEvolution() {
+    resetTab();
     await loadPokemonEvolution();
-    await checkPokemonEvolutions();
+    let basePokemon = pokemonEvolutionChain['chain']['species']['name'];
+    let pokemonFirstEvolution = pokemonEvolutionChain['chain']['evolves_to'][0];
+    let pokemonSecondEvolution = pokemonEvolutionChain['chain']['evolves_to'][0]['evolves_to'][0];
+    if (basePokemon && !pokemonFirstEvolution) {
+        await renderBasePokemonEvolution(basePokemon);
+    }
+    if (pokemonFirstEvolution && !pokemonSecondEvolution) {
+        await renderFirstPokemonEvolution(basePokemon, pokemonFirstEvolution);
+    }
+    if (pokemonFirstEvolution && pokemonSecondEvolution) {
+        await renderSecondPokemonEvolution(basePokemon, pokemonFirstEvolution, pokemonSecondEvolution);
+    }
+}
+
+function resetTab(){
     let pokemonInformationsCtn = document.getElementById('pokemonInformations');
     pokemonInformationsCtn.classList.remove('pokemonMovesList');
-    pokemonInformationsCtn.innerHTML = returnHTMLBasePokemonEvolutions();
-    let pokemonEvolutionCtn = document.getElementById('pokemonEvolutionCtn');
-        pokemonEvolutionCtn.innerHTML += returnHTMLPokemonFirstEvolution();
-        pokemonEvolutionCtn.innerHTML += returnHTMLPokemonSecondEvolution();
-    }
+}
 
 function returnHTMLBasePokemonEvolutions() {
     let basePokemonImg = basePokemonInformations['sprites']['other']['official-artwork']['front_default'];
@@ -272,7 +292,7 @@ function returnHTMLBasePokemonEvolutions() {
     `
 }
 
-function returnHTMLPokemonFirstEvolution(){
+function returnHTMLPokemonFirstEvolution() {
     let pokemonFirstEvolutionImg = pokemonFirstEvolutionInformations['sprites']['other']['official-artwork']['front_default'];
     let type1 = pokemonInformations['types'][0]['type']['name'];
     return `
@@ -285,7 +305,7 @@ function returnHTMLPokemonFirstEvolution(){
     `
 }
 
-function returnHTMLPokemonSecondEvolution(){
+function returnHTMLPokemonSecondEvolution() {
     let pokemonSecondEvolutionImg = pokemonSecondEvolutionInformations['sprites']['other']['official-artwork']['front_default'];
     let type1 = pokemonInformations['types'][0]['type']['name'];
     return `
