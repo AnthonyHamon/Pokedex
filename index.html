@@ -9,24 +9,29 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="fonts.css">
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
-    <script src="script.js"></script>
 
 </head>
 
 <body onload="loadPokedex()">
-    <div id="pokemonInformationsCardCtn" class="pokemonCardCtn d-none"></div>
+    <div id="loading-page">
+        <img class="loading-image spinner" src="img/pokeball-spinner.png" alt="Page is loading">
+    </div>
+        <div id="pokemonInformationsCardCtn" class="pokemonCardCtn d-none"></div>
 
-    <header>
-        <div class="flex-between p-4">
-            <img id="logo" src="img/pokedex-logo.png" alt="">
-            <div class="search-input">
-                <img src="img/pokemon-search.png" alt="">
-                <input oninput="searchPokemon()" id="searchInput" type="text" placeholder="Search">
+        <header>
+            <div class="flex-between p-4">
+                <img id="logo" src="img/pokedex-logo.png" alt="">
+                <div class="search-input">
+                    <img src="img/pokemon-search.png" alt="">
+                    <input oninput="searchPokemon()" id="searchInput" type="text" placeholder="Search">
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <main id="pokemonThumbnailsContainer"></main>
+        <main id="pokemonThumbnailsContainer"></main>
+    
 </body>
+
+<script src="script.js"></script>
 
 </html>
