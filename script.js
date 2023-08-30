@@ -5,8 +5,8 @@ let basePokemonInformations;
 let pokemonFirstEvolutionInformations;
 let pokemonSecondEvolutionInformations;
 let query = 0;
+let searchPokemonArray = [];
 let isLoading = false;
-let index = 0;
 
 // window.addEventListener("load", function () {
 //     let loadingPage = document.getElementById('loading-page');
@@ -14,6 +14,15 @@ let index = 0;
 //         loadingPage.style.display = "none";
 //     }
 // });
+
+async function resolve(p) {
+    try {
+        let response = await p;
+        return [response, null];
+    } catch (e) {
+        return [null, e];
+    }
+}
 
 function showFullPageSpinner() {
     if (isLoading == true) {
@@ -31,7 +40,7 @@ function hideFullPageSpinner() {
 
 function hideBaseStatsTable() {
     let selectedPokemonBaseStats = pokemonInformations['stats'];
-    for (let i = 0; i < selectedPokemonBaseStats.length; i++){
+    for (let i = 0; i < selectedPokemonBaseStats.length; i++) {
         document.getElementById(`base-stats-table${i}`).classList.add('d-none');
     }
 }
@@ -46,55 +55,63 @@ function showEvolutionTabSpinner() {
 async function loadPokedex() {
     isLoading = true;
     let url = `https://pokeapi.co/api/v2/pokemon/?offset=${query}&limit=50`; // load pokedex from query value;
-    let response = await fetch(url);
-    loadedPokemons = await response.json();
-    console.log(loadedPokemons);
-    renderPokemonThumbnails();
-    isLoading = false;
+    let [response, error] = await resolve(fetch(url));
+    if (response) {
+        loadedPokemons = await response.json();
+        console.log(loadedPokemons);
+        await renderPokemonThumbnails();
+        isLoading = false;
+        hideFullPageSpinner();
+    }
+    if(error){
+        alert('Ein fehler ist aufgetreten, versuche es bitte nochmal');
+    }
 }
 
 window.onscroll = async function () {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !isLoading) {
         isLoading = true;
-        showFullPageSpinner();
+        // showFullPageSpinner();
         query = query + 50;
         await loadPokedex();
-        setTimeout(() => {
-            isLoading = false;
-        }, 1000)
+        isLoading = false;
     }
 };
 
-async function loadPokemonInformations(index) {
-    let url = `https://pokeapi.co/api/v2/pokemon/${index}/`;
-    let response = await fetch(url);
-    pokemonInformations = await response.json();
+async function loadPokemonInformations(loadedPokemonName) {
+    let url = `https://pokeapi.co/api/v2/pokemon/${loadedPokemonName}/`;
+    let [response, error] = await resolve(fetch(url));
+    if (response){
+        pokemonInformations = await response.json();
+    }
+    if (error){
+        alert('Ein fehler ist aufgetreten, versuche es bitte nochmal');
+    }
 }
 
 async function renderPokemonThumbnails() {
     let pokemonThumbnailsContainer = document.getElementById('pokemonThumbnailsContainer');
     let loadedPokemonsArray = loadedPokemons['results'];
     for (let i = 0; i < loadedPokemonsArray.length; i++) {
-        index++
-        await loadPokemonInformations(index);
-        const pokemon = loadedPokemonsArray[i];
-        pokemonThumbnailsContainer.innerHTML += returnPokemonThumbnails(pokemon, index);
+        let loadedPokemon = loadedPokemons['results'][i]['name'];
+        searchPokemonArray.push(loadedPokemon);
+        await loadPokemonInformations(loadedPokemon);
+        pokemonThumbnailsContainer.innerHTML += returnPokemonThumbnails(loadedPokemon);
     }
-    hideFullPageSpinner();
 }
 
-function returnPokemonThumbnails(pokemon, index) {
-    let pokemonName = pokemon['name'];
+function returnPokemonThumbnails(loadedPokemon) {
     let type1 = pokemonInformations['types'][0]['type']['name'];
+    let pokemonName = pokemonInformations['name'];
 
     return `
-    <div onclick="openSelectedPokemonInformationsCard(${index})" id="${pokemonName}" class="pokemonSingleCard ${type1}">
+    <div onclick="openSelectedPokemonInformationsCard('${loadedPokemon}')" id="${pokemonName}" class="pokemonSingleCard ${type1}">
         <div class="p-12px">
             <div class="flex-between">
                 <h4>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h4>
                 <span>#${pokemonInformations['id'].toString().padStart(3, '0')}</span>
             </div>
-                <div id="${pokemonName}CardContent" class="d-flex single-card-content">
+                <div id="${loadedPokemon}CardContent" class="d-flex single-card-content">
                 ${returnPokemonThumbnailsInformations()}
                 </div>
         </div>
@@ -124,19 +141,20 @@ function returnPokemonTypeInformation() {
     return htmlText;
 }
 
-async function openSelectedPokemonInformationsCard(index) {
+async function openSelectedPokemonInformationsCard(loadedPokemon) {
     let pokemonInformationsCard = document.getElementById('pokemonInformationsCardCtn');
-    await loadPokemonInformations(index);
+    await loadPokemonInformations(loadedPokemon);
     document.getElementById('pokemonInformationsCardCtn').classList.remove('d-none');
     console.log('current Pokemon is', pokemonInformations['name']);
-    pokemonInformationsCard.innerHTML = returnPokemonInformationsCard(index);
+    pokemonInformationsCard.innerHTML = returnPokemonInformationsCard(loadedPokemon);
     console.log(pokemonInformations);
 
 }
 
-function returnPokemonInformationsCard(index) {
+function returnPokemonInformationsCard() {
     let pokemonName = pokemonInformations['name'];
     let type1 = pokemonInformations['types'][0]['type']['name'];
+    let id = pokemonInformations['id'];
 
     return `
     <div class="pokemonCard">
@@ -165,9 +183,9 @@ function returnPokemonInformationsCard(index) {
             <span id="pokemonID">#${pokemonInformations['id'].toString().padStart(3, '0')}</span>
         </div>
         <div class="flex-between">
-            <img onclick = "previousPokemon(${index})"id="pokemonArrowLeft" src="img/arrow-left-white.png" alt="">
+            <img onclick = "previousPokemon(${id})"id="pokemonArrowLeft" src="img/arrow-left-white.png" alt="">
             <img id="pokemonImg" src="${pokemonInformations['sprites']['other']['official-artwork']['front_default']}" alt="">
-            <img onclick = "nextPokemon(${index})" id="pokemonArrowRight" src="img/arrow-right-white.png" alt="">
+            <img onclick = "nextPokemon(${id})" id="pokemonArrowRight" src="img/arrow-right-white.png" alt="">
         </div>
     </div>
     <div class="info-container">
@@ -246,14 +264,17 @@ async function loadPokemonEvolution() {
     isLoading = true;
     showEvolutionTabSpinner();
     let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonInformations['name']}`;
-    let response = await fetch(url);
-    let pokemonEvolutions = await response.json();
-    console.log(pokemonEvolutions);
-    let evolutionChainURL = pokemonEvolutions['evolution_chain']['url'];
-    let evolutionChainResponse = await fetch(evolutionChainURL);
-    pokemonEvolutionChain = await evolutionChainResponse.json();
-    console.log(pokemonEvolutionChain);
-    isLoading = false;
+    let [response, error] = await resolve(fetch(url));
+    if (response){
+        let pokemonEvolutions = await response.json();
+        let evolutionChainURL = pokemonEvolutions['evolution_chain']['url'];
+        let evolutionChainResponse = await fetch(evolutionChainURL);
+        pokemonEvolutionChain = await evolutionChainResponse.json();
+        isLoading = false;
+    }
+    if(error){
+        alert('Ein fehler ist aufgetreten, versuche es bitte nochmal');
+    } 
 }
 
 async function renderBasePokemonEvolution(basePokemon) {
@@ -285,31 +306,51 @@ async function renderSecondPokemonEvolution(basePokemon, pokemonFirstEvolution, 
 async function loadBasePokemonEvolutionInformations(basePokemon) {
     isLoading = true;
     showEvolutionTabSpinner();
-    let url1 = `https://pokeapi.co/api/v2/pokemon/${basePokemon}/`;
-    let response1 = await fetch(url1);
-    basePokemonInformations = await response1.json();
-    isLoading = false;
+    let url = `https://pokeapi.co/api/v2/pokemon/${basePokemon}/`;
+    let [response, error] = await resolve(fetch(url));
+    if (response){
+        basePokemonInformations = await response.json();
+        isLoading = false;
+    }
+    if (error){
+        if(error){
+            alert('Ein fehler ist aufgetreten, versuche es bitte nochmal');
+        } 
+    }
 }
 
 async function loadPokemonFirstEvolutionInformation(pokemonFirstEvolution) {
     isLoading = true;
     showEvolutionTabSpinner();
     let pokemonFirstEvolutionName = pokemonFirstEvolution['species']['name'];
-    let url2 = `https://pokeapi.co/api/v2/pokemon/${pokemonFirstEvolutionName}/`;
-    let response2 = await fetch(url2);
-    pokemonFirstEvolutionInformations = await response2.json();
-    isLoading = false;
+    let url = `https://pokeapi.co/api/v2/pokemon/${pokemonFirstEvolutionName}/`;
+    let [response, error] = await resolve(fetch(url));
+    if (response){
+        pokemonFirstEvolutionInformations = await response.json();
+        isLoading = false;
+    }
+    if (error){
+        if(error){
+            alert('Ein fehler ist aufgetreten, versuche es bitte nochmal');
+        } 
+    }
 }
 
 async function loadPokemonSecondEvolutionInformation(pokemonSecondEvolution) {
     isLoading = true;
     showEvolutionTabSpinner();
     let pokemonSecondEvolutionName = pokemonSecondEvolution['species']['name'];
-    let url3 = `https://pokeapi.co/api/v2/pokemon/${pokemonSecondEvolutionName}/`;
-    let response3 = await fetch(url3);
-    pokemonSecondEvolutionInformations = await response3.json();
-    console.log(pokemonSecondEvolutionInformations);
-    isLoading = false;
+    let url = `https://pokeapi.co/api/v2/pokemon/${pokemonSecondEvolutionName}/`;
+    let [response, error] = await resolve(fetch(url));
+    if (response){
+        pokemonSecondEvolutionInformations = await response.json();
+        isLoading = false;
+    }
+    if (error){
+        if(error){
+            alert('Ein fehler ist aufgetreten, versuche es bitte nochmal');
+        } 
+    }
 }
 
 async function renderPokemonEvolution() {
@@ -382,18 +423,27 @@ function toggleLikePokemonHeart() {
     document.getElementById('filledHeart').classList.toggle('d-none');
 }
 
-function previousPokemon(index) {
-    index--;
-    openSelectedPokemonInformationsCard(index);
+function previousPokemon(id) {
+    id--;
+    openSelectedPokemonInformationsCard(id);
 }
 
-function nextPokemon(index) {
-    index++;
-    console.log('index is', index + 1)
-    openSelectedPokemonInformationsCard(index);
+function nextPokemon(id) {
+    id++;
+    openSelectedPokemonInformationsCard(id);
 }
 
-function searchPokemon() {
+async function searchPokemon() {
     let inputValue = document.getElementById('searchInput').value;
-    console.log('hello');
+    inputValue = inputValue.toLowerCase();
+    let pokemonThumbnailsContainer = document.getElementById('pokemonThumbnailsContainer');
+    pokemonThumbnailsContainer.innerHTML = "";
+
+    for (let i = 0; i < searchPokemonArray.length; i++) {
+        const searchedPokemon = searchPokemonArray[i];
+        if (searchedPokemon.toLowerCase().includes(inputValue)) {
+            await loadPokemonInformations(searchedPokemon);
+            pokemonThumbnailsContainer.innerHTML += returnPokemonThumbnails(searchedPokemon);
+        }
+    }
 }
