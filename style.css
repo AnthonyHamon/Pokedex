@@ -12,39 +12,39 @@ body {
     background-size: cover;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     width: 20px;
 }
 
 
-::-webkit-scrollbar-track{
-    box-shadow: inset 0 0 8px rgba(55,55,55,0.8);
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 8px rgba(55, 55, 55, 0.8);
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
     background: url('img/pokeball-spinner.png') no-repeat;
     background-size: contain;
     border-radius: 10px;
 }
 
-#loading-page{
+#loading-page {
     position: fixed;
     height: 100vh;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.loading-image{
+.loading-image {
     position: fixed;
     z-index: 1000;
     width: 48px;
     height: 48px;
 }
 
-.spinner{
+.spinner {
     animation: spin 1.4s linear infinite;
 }
 
@@ -52,12 +52,13 @@ body {
     0% {
         transform: rotate(0deg);
     }
-    100%{
+
+    100% {
         transform: rotate(360deg);
     }
 }
 
-.pokemonCardCtn{
+.pokemonCardCtn {
     position: fixed;
     top: 0;
     right: 0;
@@ -71,7 +72,7 @@ body {
 .pokemonCard {
     width: 550px;
     border-radius: 20px;
-    box-shadow: 2px 2px 10px 5px rgba(55,55,55,0.8);
+    box-shadow: 2px 2px 10px 5px rgba(55, 55, 55, 0.8);
 }
 
 #pokemonCardHeader {
@@ -118,7 +119,7 @@ body {
     width: 24px;
 }
 
-.filter-white{
+.filter-white {
     filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(257deg) brightness(105%) contrast(101%);
 }
 
@@ -151,10 +152,11 @@ body {
     width: 320px;
 }
 
-#pokemonArrowLeft, #pokemonArrowRight{
+#pokemonArrowLeft,
+#pokemonArrowRight {
     width: 50px;
     height: 50px;
-    
+
 }
 
 #pokemonID {
@@ -173,11 +175,11 @@ body {
     color: black;
 }
 
-#pokemonInformations{
+#pokemonInformations {
     height: 70%;
 }
 
-#loading-tab{
+#loading-tab {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -239,7 +241,7 @@ table td:nth-child(3) {
 
 /* CSS for Main Page */
 
-main{
+main {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -248,23 +250,23 @@ main{
     margin-top: 1.5rem;
 }
 
-#logo{
+#logo {
     width: 256px;
     height: 72px;
     object-fit: contain;
 }
 
-.search-input{
+.search-input {
     display: flex;
     align-items: center;
     gap: 4px;
 }
 
-.search-input img{
+.search-input img {
     width: 36px;
 }
 
-#searchInput{
+#searchInput {
     border: none;
     border-radius: 10px;
     background-color: #F1F0EF;
@@ -273,179 +275,264 @@ main{
     cursor: text;
 }
 
-.pokemonSingleCard{
+.pokemonSingleCard {
     height: 250px;
     width: 350px;
     color: white;
     border-radius: 20px;
-    box-shadow: 2px 2px 10px 5px rgba(55,55,55,0.8);
+    box-shadow: 2px 2px 10px 5px rgba(55, 55, 55, 0.8);
     cursor: pointer;
 }
 
-.p-12px{
+.p-12px {
     padding: 12px;
 }
 
-.single-card-content{
+.single-card-content {
     justify-content: space-between;
     align-items: center;
     gap: 14px;
 }
 
-.single-card-content img{
+.single-card-content img {
     width: 200px;
 }
 
-.single-card-content-img{
+.single-card-content-img {
     width: 210px;
     height: 210px;
 }
 
-.single-card-content-img img:hover{
+.single-card-content-img img:hover {
     width: 210px;
     transition: all 225ms ease-in-out;
 }
 
-.single-card-content span{
+.single-card-content span {
     border: solid;
     padding: 4px 36px;
     margin-bottom: 8px;
     border-color: transparent;
     border-radius: 20px;
     max-width: 120px;
-    background-color: rgba(255,255,255, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
-#heart, #filledHeart, #pokemonArrowLeft, #pokemonArrowRight{
+#heart,
+#filledHeart,
+#pokemonArrowLeft,
+#pokemonArrowRight {
     cursor: pointer;
 }
 
-.normal{
+.normal {
     background-color: #A8A77A;
 }
-.fire{
+
+.fire {
     background-color: #EE8130;
 }
-.water{
+
+.water {
     background-color: #6390F0;
 }
-.electric{
+
+.electric {
     background-color: #F7D02C;
 }
-.grass{
+
+.grass {
     background-color: #7AC74C;
 }
-.ice{
+
+.ice {
     background-color: #96D9D6;
 }
-.fighting{
+
+.fighting {
     background-color: #C22E28;
 }
-.poison{
+
+.poison {
     background-color: #A33EA1;
 }
-.ground{
+
+.ground {
     background-color: #E2BF65;
 }
-.flying{
+
+.flying {
     background-color: #A98FF3;
 }
-.psychic{
+
+.psychic {
     background-color: #F95587;
 }
-.bug{
+
+.bug {
     background-color: #A6B91A;
 }
-.rock{
+
+.rock {
     background-color: #B6A136;
 }
-.ghost{
+
+.ghost {
     background-color: #735797;
 }
-.dragon{
+
+.dragon {
     background-color: #6F35FC;
 }
-.dark{
+
+.dark {
     background-color: #705746;
 }
-.steel{
+
+.steel {
     background-color: #B7B7CE;
 }
-.fairy{
+
+.fairy {
     background-color: #D685AD;
 }
 
 
 
-#normal{
+#normal {
     filter: invert(75%) sepia(2%) saturate(4300%) hue-rotate(21deg) brightness(88%) contrast(88%);
     width: 54px;
 }
-#fire{
+
+#fire {
     filter: invert(59%) sepia(97%) saturate(1633%) hue-rotate(340deg) brightness(97%) contrast(91%);
     width: 54px;
 }
-#water{
+
+#water {
     filter: invert(55%) sepia(46%) saturate(2726%) hue-rotate(199deg) brightness(99%) contrast(89%);
     width: 54px;
 }
-#electric{
+
+#electric {
     filter: invert(96%) sepia(99%) saturate(3838%) hue-rotate(329deg) brightness(98%) contrast(98%);
     width: 54px;
 }
-#grass{
+
+#grass {
     filter: invert(65%) sepia(92%) saturate(295%) hue-rotate(53deg) brightness(91%) contrast(89%);
     width: 54px;
 }
-#ice{
+
+#ice {
     filter: invert(91%) sepia(95%) saturate(240%) hue-rotate(96deg) brightness(91%) contrast(85%);
     width: 54px;
 }
-#fighting{
+
+#fighting {
     filter: invert(23%) sepia(85%) saturate(1312%) hue-rotate(334deg) brightness(103%) contrast(106%);
     width: 54px;
 }
-#poison{
+
+#poison {
     filter: invert(34%) sepia(20%) saturate(3883%) hue-rotate(266deg) brightness(88%) contrast(89%);
     width: 54px;
 }
-#ground{
+
+#ground {
     filter: invert(88%) sepia(29%) saturate(867%) hue-rotate(337deg) brightness(93%) contrast(90%);
     width: 54px;
 }
-#flying{
+
+#flying {
     filter: invert(53%) sepia(100%) saturate(793%) hue-rotate(212deg) brightness(102%) contrast(91%);
     width: 54px;
 }
-#psychic{
+
+#psychic {
     filter: invert(58%) sepia(35%) saturate(5846%) hue-rotate(310deg) brightness(97%) contrast(101%);
     width: 54px;
 }
-#bug{
+
+#bug {
     filter: invert(75%) sepia(56%) saturate(3280%) hue-rotate(25deg) brightness(102%) contrast(80%);
     width: 54px;
 }
-#rock{
+
+#rock {
     filter: invert(61%) sepia(73%) saturate(378%) hue-rotate(13deg) brightness(90%) contrast(89%);
     width: 54px;
 }
-#ghost{
+
+#ghost {
     filter: invert(32%) sepia(4%) saturate(6214%) hue-rotate(224deg) brightness(107%) contrast(77%);
     width: 54px;
 }
-#dragon{
+
+#dragon {
     filter: invert(26%) sepia(54%) saturate(7102%) hue-rotate(253deg) brightness(97%) contrast(103%);
     width: 54px;
 }
-#dark{
+
+#dark {
     filter: invert(35%) sepia(10%) saturate(1445%) hue-rotate(341deg) brightness(90%) contrast(82%);
     width: 54px;
 }
-#steel{
+
+#steel {
     filter: invert(88%) sepia(6%) saturate(851%) hue-rotate(201deg) brightness(86%) contrast(85%);
     width: 54px;
 }
-#fairy{
+
+#fairy {
     filter: invert(73%) sepia(81%) saturate(459%) hue-rotate(286deg) brightness(88%) contrast(89%);
     width: 54px;
+}
+
+@media (max-width: 550px) {
+    header div.flex-between {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+}
+
+@media (max-width: 400px){
+    .pokemonSingleCard{
+        height: 200px;
+        width: 300px;
+    }
+
+    .single-card-content-img{
+        width: 165px;
+        height: 165px;
+    }
+
+    .single-card-content img{
+        width: 155px;
+    }
+
+    .single-card-content-img img:hover{
+        width: 165px;
+    }
+}
+
+@media (max-width: 350px){
+    .pokemonSingleCard{
+        height: 150px;
+        width: 250px;
+    }
+
+    .single-card-content-img{
+        width: 110px;
+        height: 110gitpx;
+    }
+
+    .single-card-content img{
+        width: 100px;
+    }
+
+    .single-card-content-img img:hover{
+        width: 110px;
+    }
 }

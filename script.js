@@ -58,7 +58,6 @@ async function loadPokedex() {
     let [response, error] = await resolve(fetch(url));
     if (response) {
         loadedPokemons = await response.json();
-        console.log(loadedPokemons);
         await renderPokemonThumbnails();
         isLoading = false;
         hideFullPageSpinner();
@@ -71,7 +70,7 @@ async function loadPokedex() {
 window.onscroll = async function () {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !isLoading) {
         isLoading = true;
-        // showFullPageSpinner();
+        showFullPageSpinner();
         query = query + 50;
         await loadPokedex();
         isLoading = false;
@@ -145,10 +144,7 @@ async function openSelectedPokemonInformationsCard(loadedPokemon) {
     let pokemonInformationsCard = document.getElementById('pokemonInformationsCardCtn');
     await loadPokemonInformations(loadedPokemon);
     document.getElementById('pokemonInformationsCardCtn').classList.remove('d-none');
-    console.log('current Pokemon is', pokemonInformations['name']);
     pokemonInformationsCard.innerHTML = returnPokemonInformationsCard(loadedPokemon);
-    console.log(pokemonInformations);
-
 }
 
 function returnPokemonInformationsCard() {
