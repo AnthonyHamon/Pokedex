@@ -489,15 +489,39 @@ main {
     width: 54px;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 580px) {
     header div.flex-between {
         display: flex;
         flex-direction: column;
         gap: 24px;
     }
+
+    .pokemonCard{
+        width: 450px;
+    }
 }
 
-@media (max-width: 400px){
+@media (max-width: 530px) {
+    #pokemonImg{
+        width: 225px;
+    }
+
+    .pokemonCard{
+        width: 380px;
+    }
+
+    .pokemonDimension{
+        padding: 4px 12px;
+    }
+
+    table td:nth-child(1){
+        min-width: 70px
+    }
+}
+
+
+
+@media (max-width: 410px){
     .pokemonSingleCard{
         height: 200px;
         width: 300px;
@@ -514,6 +538,31 @@ main {
 
     .single-card-content-img img:hover{
         width: 165px;
+    }
+
+    .pokemonCard{
+        width: 330px;
+    }
+
+    #pokemonImg{
+        width: 180px;
+    }
+
+    .pokemonDimension{
+        padding: 4px;
+    }
+    
+    #pokemonID{
+        margin-right: -10px;
+        margin-top: 34px;
+    }
+
+    .info-container{
+        margin-top: -60px;
+    }
+
+    table{
+        padding: 0 8px;
     }
 }
 
@@ -534,5 +583,17 @@ main {
 
     .single-card-content-img img:hover{
         width: 110px;
+    }
+
+    .pokemonCard{
+        width: 260px;
+    }
+
+    #pokemonImg{
+        width: 130px;
+    }
+
+    .info-container{
+        height: 45vh;
     }
 }

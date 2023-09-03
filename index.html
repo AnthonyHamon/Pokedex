@@ -12,7 +12,7 @@
 
 </head>
 
-<body onload="loadPokedex()">
+<body onload="init()">
     <div id="loading-page">
         <img class="loading-image spinner" src="img/pokeball-spinner.png" alt="Page is loading">
     </div>
@@ -23,7 +23,7 @@
                 <img id="logo" src="img/pokedex-logo.png" alt="">
                 <div class="search-input">
                     <img src="img/pokemon-search.png" alt="">
-                    <input oninput="searchPokemon()" id="searchInput" type="text" placeholder="Search">
+                    <input onkeyup="searchPokemon()" id="searchInput" type="text" placeholder="Search">
                 </div>
             </div>
         </header>
@@ -32,6 +32,8 @@
     
 </body>
 
+<script src="load.js"></script>
 <script src="script.js"></script>
+<script src="returnHTML.js"></script>
 
 </html>
