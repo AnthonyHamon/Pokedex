@@ -1,5 +1,5 @@
 async function setPokemonNameArray() {
-    let url = `https://pokeapi.co/api/v2/pokemon/?limit=1000`;
+    let url = `https://pokeapi.co/api/v2/pokemon/?limit=${loadedPokemons['count']}`;
     let [response, error] = await resolve(fetch(url));
     if (response) {
         let allPokemon = await response.json();
@@ -15,6 +15,7 @@ async function setPokemonNameArray() {
 }
 
 async function loadPokedex() {
+    isSearching = false;
     isLoading = true;
     let url = `https://pokeapi.co/api/v2/pokemon/?offset=${query}&limit=50`; // load pokedex from query value;
     let [response, error] = await resolve(fetch(url));

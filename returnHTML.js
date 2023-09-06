@@ -1,7 +1,7 @@
 function returnPokemonThumbnails(loadedPokemon) {
     let type1 = pokemonInformations['types'][0]['type']['name'];
     let pokemonName = pokemonInformations['name'];
-    console.log(pokemonName)
+    console.log(pokemonName);
     return `
     <div onclick="openSelectedPokemonInformationsCard('${loadedPokemon}')" id="${pokemonName}" class="pokemonSingleCard ${type1}">
         <div class="p-12px">
