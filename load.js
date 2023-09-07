@@ -54,6 +54,7 @@ async function loadPokemonEvolution() {
         let evolutionChainResponse = await fetch(evolutionChainURL);
         pokemonEvolutionChain = await evolutionChainResponse.json();
         isLoading = false;
+        console.log(pokemonEvolutionChain)
     }
     if (error) {
         alert('Ein fehler ist aufgetreten, versuche es bitte nochmal');

@@ -66,17 +66,6 @@ async function renderPokemonThumbnails() {
     }
 }
 
-function returnPokemonTypeInformation() {
-    let pokemonTypesArray = pokemonInformations['types'];
-    let htmlText = "";
-    for (let j = 0; j < pokemonTypesArray.length; j++) {
-        const pokemonType = pokemonTypesArray[j];
-        htmlText += `<span>${pokemonType['type']['name']}</span>`
-    };
-
-    return htmlText;
-}
-
 async function openSelectedPokemonInformationsCard(loadedPokemon) {
     let pokemonInformationsCard = document.getElementById('pokemonInformationsCardCtn');
     await loadPokemonInformations(loadedPokemon);
@@ -149,14 +138,12 @@ async function renderPokemonEvolution() {
     await loadPokemonEvolution();
     let basePokemon = pokemonEvolutionChain['chain']['species']['name'];
     let pokemonFirstEvolution = pokemonEvolutionChain['chain']['evolves_to'][0];
-    let pokemonSecondEvolution = pokemonEvolutionChain['chain']['evolves_to'][0]['evolves_to'][0];
-    if (basePokemon && !pokemonFirstEvolution) {
+    let pokemonSecondEvolution = pokemonFirstEvolution ? pokemonFirstEvolution['evolves_to'][0]: null;
+    if (!pokemonFirstEvolution) {
         await renderBasePokemonEvolution(basePokemon);
-    }
-    if (pokemonFirstEvolution && !pokemonSecondEvolution) {
+    } else if (!pokemonSecondEvolution) {
         await renderFirstPokemonEvolution(basePokemon, pokemonFirstEvolution);
-    }
-    if (pokemonFirstEvolution && pokemonSecondEvolution) {
+    }else {
         await renderSecondPokemonEvolution(basePokemon, pokemonFirstEvolution, pokemonSecondEvolution);
     }
 }
@@ -203,13 +190,13 @@ async function searchPokemon() {
             return;
         }
         await renderSearchedPokemons(inputValue);
-    },300);
+    }, 300);
 }
 
-async function renderSearchedPokemons(inputValue){
+async function renderSearchedPokemons(inputValue) {
     for (let i = 0; i < searchPokemonArray.length; i++) {
         const searchedPokemon = searchPokemonArray[i].toLowerCase();
-        if (searchedPokemon.startsWith(inputValue)){
+        if (searchedPokemon.startsWith(inputValue)) {
             await loadPokemonInformations(searchedPokemon);
             pokemonThumbnailsContainer.innerHTML += returnPokemonThumbnails(searchedPokemon);
         }

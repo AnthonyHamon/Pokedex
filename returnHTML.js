@@ -28,6 +28,17 @@ function returnPokemonThumbnailsInformations() {
     `
 }
 
+function returnPokemonTypeInformation() {
+    let pokemonTypesArray = pokemonInformations['types'];
+    let htmlText = "";
+    for (let j = 0; j < pokemonTypesArray.length; j++) {
+        const pokemonType = pokemonTypesArray[j];
+        htmlText += `<span>${pokemonType['type']['name']}</span>`
+    };
+
+    return htmlText;
+}
+
 
 function returnPokemonInformationsCard() {
     let pokemonName = pokemonInformations['name'];
