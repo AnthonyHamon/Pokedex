@@ -43,21 +43,55 @@ async function loadPokemonInformations(loadedPokemonName) {
     isLoading = false;
 }
 
+// async function loadPokemonEvolution() {
+//     isLoading = true;
+//     showEvolutionTabSpinner();
+//     let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonInformations['name']}`;
+//     let response = await fetch(url).catch(errorFunction);
+//     let pokemonEvolutions = await response.json();
+//     let evolutionChainURL = pokemonEvolutions['evolution_chain']['url'];
+//     let evolutionChainResponse = await fetch(evolutionChainURL);
+//     pokemonEvolutionChain = await evolutionChainResponse.json();
+//     isLoading = false;
+// }
+
+// function errorFunction() {
+//     alert('Ein fehler ist aufgetreten: ' + response.status);
+// }
+
 async function loadPokemonEvolution() {
     isLoading = true;
     showEvolutionTabSpinner();
     let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonInformations['name']}`;
     let [response, error] = await resolve(fetch(url));
-    if (response) {
+    if (response.status === 200) {
         let pokemonEvolutions = await response.json();
         let evolutionChainURL = pokemonEvolutions['evolution_chain']['url'];
         let evolutionChainResponse = await fetch(evolutionChainURL);
         pokemonEvolutionChain = await evolutionChainResponse.json();
         isLoading = false;
-        console.log(pokemonEvolutionChain)
-    }
-    if (error) {
+    }else if (error) {
         alert('Ein fehler ist aufgetreten, versuche es bitte nochmal');
+    }else{
+        alert('Ein fehler ist aufgetreten: ' + response.status);
+    }
+}
+
+async function loadPokemonEvolution() {
+    isLoading = true;
+    showEvolutionTabSpinner();
+    let url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonInformations['name']}`;
+    let [response, error] = await resolve(fetch(url));
+    if (response.status === 200) {
+        let pokemonEvolutions = await response.json();
+        let evolutionChainURL = pokemonEvolutions['evolution_chain']['url'];
+        let evolutionChainResponse = await fetch(evolutionChainURL);
+        pokemonEvolutionChain = await evolutionChainResponse.json();
+        isLoading = false;
+    } else if (error) {
+        alert('Ein fehler ist aufgetreten, versuche es bitte nochmal');
+    } else {
+        alert('Ein fehler ist aufgetreten: ' + response.status);
     }
 }
 

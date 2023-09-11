@@ -14,7 +14,7 @@ let timer;
 async function resolve(p) {
     try {
         let response = await p;
-        return [response, null];
+        return [response, null]; 
     } catch (e) {
         return [null, e];
     }
@@ -114,11 +114,15 @@ async function renderBasePokemonEvolution(basePokemon) {
 
 async function renderFirstPokemonEvolution(basePokemon, pokemonFirstEvolution) {
     await loadBasePokemonEvolutionInformations(basePokemon);
-    await loadPokemonFirstEvolutionInformation(pokemonFirstEvolution);
     let pokemonInformationsCtn = document.getElementById('pokemonInformations');
-    pokemonInformationsCtn.innerHTML = returnHTMLBasePokemonEvolutions();
-    let pokemonEvolutionCtn = document.getElementById('pokemonEvolutionCtn');
-    pokemonEvolutionCtn.innerHTML += returnHTMLPokemonFirstEvolution()
+    if (pokemonFirstEvolution.length > 1){
+        pokemonInformationsCtn += returnHTMLAlternativEvolution();
+    }else{
+        await loadPokemonFirstEvolutionInformation(pokemonFirstEvolution);
+        pokemonInformationsCtn.innerHTML = returnHTMLBasePokemonEvolutions();
+        let pokemonEvolutionCtn = document.getElementById('pokemonEvolutionCtn');
+        pokemonEvolutionCtn.innerHTML += returnHTMLPokemonFirstEvolution();
+    }
 }
 
 async function renderSecondPokemonEvolution(basePokemon, pokemonFirstEvolution, pokemonSecondEvolution) {
@@ -136,6 +140,15 @@ async function renderPokemonEvolution() {
     resetTab();
     renderEvolutionTabSpinner();
     await loadPokemonEvolution();
+    let pokemonEvolutionChainLenght = pokemonEvolutionChain['chain']['evolves_to'];
+    if(pokemonEvolutionChainLenght.length > 1){
+        showAlternativPokemonEvolution();
+    }else{
+        await showPokemonEvolutions();
+    }
+}
+
+async function showPokemonEvolutions(){
     let basePokemon = pokemonEvolutionChain['chain']['species']['name'];
     let pokemonFirstEvolution = pokemonEvolutionChain['chain']['evolves_to'][0];
     let pokemonSecondEvolution = pokemonFirstEvolution ? pokemonFirstEvolution['evolves_to'][0]: null;
@@ -146,6 +159,13 @@ async function renderPokemonEvolution() {
     }else {
         await renderSecondPokemonEvolution(basePokemon, pokemonFirstEvolution, pokemonSecondEvolution);
     }
+}
+
+async function showAlternativPokemonEvolution(){
+    let basePokemon = pokemonEvolutionChain['chain']['species']['name'];
+    await renderBasePokemonEvolution(basePokemon);
+    let pokemonEvolutionCtn = document.getElementById('pokemonEvolutionCtn');
+    pokemonEvolutionCtn.innerHTML += returnHTMLAlternativEvolution();
 }
 
 function renderEvolutionTabSpinner() {

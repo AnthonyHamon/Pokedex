@@ -1,7 +1,6 @@
 function returnPokemonThumbnails(loadedPokemon) {
     let type1 = pokemonInformations['types'][0]['type']['name'];
     let pokemonName = pokemonInformations['name'];
-    console.log(pokemonName);
     return `
     <div onclick="openSelectedPokemonInformationsCard('${loadedPokemon}')" id="${pokemonName}" class="pokemonSingleCard ${type1}">
         <div class="p-12px">
@@ -97,9 +96,9 @@ function returnPokemonInformationsCard() {
     `;
 }
 
-function returnTabSpinner(){
+function returnTabSpinner() {
 
-    return`
+    return `
     <div id="loading-tab" class="d-none">
         <img class="loading-image spinner" src="img/pokeball-spinner.png" alt="Page is loading">
     </div>
@@ -150,6 +149,19 @@ function returnHTMLBasePokemonEvolutions() {
     `;
 }
 
+function returnHTMLAlternativEvolution() {
+    let alternativPokemonEvolutionImg = "img/alternativ-pokemon-img.png";
+    let type1 = pokemonInformations['types'][0]['type']['name'];
+    return `
+            <div class="flex-center">
+                <img id="${type1}" src="img/arrow_right.png">
+            </div>
+            <div class=" flex-center pokemonEvoImg">
+                <img src="${alternativPokemonEvolutionImg}" title="${returnAlternativPokemonEvolutionTextInformation()}" >
+            </div>
+    `;
+}
+
 function returnHTMLPokemonFirstEvolution() {
     let pokemonFirstEvolutionImg = pokemonFirstEvolutionInformations['sprites']['other']['official-artwork']['front_default'];
     let type1 = pokemonInformations['types'][0]['type']['name'];
@@ -161,6 +173,12 @@ function returnHTMLPokemonFirstEvolution() {
                 <img src="${pokemonFirstEvolutionImg}">
             </div>
     `;
+}
+
+function returnAlternativPokemonEvolutionTextInformation() {
+    return `
+        This pokemon has many possible Evolution which depend of the stone use for the evolution process or / also of the pokemon feeling, place of Evolution and a lot more. For detailled information, please refer to the official Pokémon information Database.
+    `
 }
 
 function returnHTMLPokemonSecondEvolution() {
